@@ -1,13 +1,17 @@
 import React, { useState, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
-import './App.css';
+
 import About from './components/pages/About'
 import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users';
 import User from './components/users/User'
 import Search from './components/users/Search'
 import Alert from './components/layout/Alert'
+
+import GithubState from './context/github/GithubState';
+
+import './App.css';
 
 const App = () => {
   const [users, setUsers] = useState([])
@@ -16,24 +20,6 @@ const App = () => {
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState(null)
   
-  /* state = {
-    users: [],
-    user: {},
-    repos: [],
-    loading: false,
-    alert: null
-  } */
-/* 
-  async componentDidMount() {
-    this.setState({ loading: true })
-
-    const res = await axios
-      .get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`)
-    
-      this.setState({ users: res.data, loading: false})
-    
-  } */
-
   // Search github users
   const searchUsers = async (text) => {
    setLoading(true)
@@ -80,7 +66,8 @@ const App = () => {
     setTimeout(() => setAlert(null), 5000);
   }
 
-    return (
+  return (
+      <GithubState>
       <Router>
     <div className="App">
         <Navbar />
@@ -112,8 +99,33 @@ const App = () => {
        
         </div>
         </div>
-        </Router>
+      </Router>
+      </GithubState>
     );
   }
 
 export default App;
+
+// how the project started with the classComponent version
+
+  /* state = {
+    users: [],
+    user: {},
+    repos: [],
+    loading: false,
+    alert: null
+  } */
+/* 
+  async componentDidMount() {
+    this.setState({ loading: true })
+
+    const res = await axios
+      .get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`)
+    
+      this.setState({ users: res.data, loading: false})
+    
+  } */
+
+/* 
+ */
+
